@@ -130,13 +130,15 @@ final class AliasResolverTest extends TestCase
 
         $versionFactory = $this->createMock(MigrationFactory::class);
 
-        $this->migrationRepository  = new MigrationRepository(
+        $this->migrationRepository = new MigrationRepository(
             [],
             [],
             new RecursiveRegexFinder('#.*\\.php$#i'),
             $versionFactory
         );
-        $this->metadataStorage      = new TableMetadataStorage($conn);
+        $this->metadataStorage     = new TableMetadataStorage($conn);
+        $this->metadataStorage->ensureInitialized();
+
         $this->planCalculator       = new MigrationPlanCalculator($this->migrationRepository, $this->metadataStorage);
         $this->versionAliasResolver = new AliasResolver(
             $this->migrationRepository,
